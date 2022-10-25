@@ -1,3 +1,4 @@
+
 /*
 (اللهم صلْ وسلم وزد وبارك على سيدنا محمد )
 
@@ -60,30 +61,58 @@ int t = 1;//cin >> t;
 while(t--)
 {
     //write the code here
-    int n;cin >> n;
-    vector<pair<int,int>> v(n);
-    for(int i = 0; i < n ; i++)
+    
+    // code for prefix sum and partial sum 2D
+    
+    // 1- prefix sum  
+    int n,m,q;cin >> n >> m >> q;
+    vector<vector<ll>> v(n+7,vector<ll>(m+7));
+    for(int i = 1; i <=n; i++)
     {
-       cin >> v[i].first >>v[i].second;
-
-    }
-    sort(v.begin(),v.end());
-    int l = v[0].first,r = v[0].second;
-    for(int i = 0; i < n; i++)
-    {
-        if(v[i].first <= r)
+        for(int j = 1; j <=m; j++)
         {
-            r = max(r,v[i].second);
-        }else
-        {
-            cout << l << " " << r << el;
-            l = v[i].first;
-            r = v[i].second;
+            cin >> v[i][j];
         }
     }
-    r = max(r,v[n-1].second);
-    cout << l << " " << r << el;
+     for(int i = 1; i <=n; i++)
+    {
+        for(int j = 1; j <=m; j++)
+        {
+            v[i][j] += v[i][j-1];
+        }
+    }
+       for(int j = 1; j <=m; j++)
+    {
+        for(int i = 1; i <=n; i++)
+        {
+            v[i][j] += v[i-1][j];
+        }
+    }
+    while(q--)
+    {
+        int x1,y1,x2,y2;cin>> x1>>y1>>x2>>y2;
+        ll sum = v[x2][y2] -
+        v[x2][y1 - 1] -
+        v[x1 - 1][y2] +
+         v[x1 - 1][y1 - 1];
+        cout << sum << el;
+    }
+//------------------------------------------------------//
 
+// To make the Partial sum on the 2D matrix you have to do the folowing
+  vector<vector<ll>> prefix(n+7,vector<ll>(m+7));
+  int q;cin >> q;
+  while(q--)
+  {
+      int x1,y1,x2,y2,value;cin >> x1 >> y1 >> x2 >> y2 >> value;
+      prefix[x1][y1] += vlaue;
+      prefix[x1][y2+1] -= value;
+      prefix[x2][y1] -= value;
+      prefix[x2][y2+1] += value;
+  }
+  //Then we have to make prefix sum on the prefix matrix
+  
+  // Then we have to iterate on the original matrix and print the value of the prefix plus the original
 
 
 
